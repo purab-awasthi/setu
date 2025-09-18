@@ -1,58 +1,124 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { LogOut, User as UserIcon, Briefcase, Info, HelpCircle } from "lucide-react";
 
 export default function Header() {
-  const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Helper function to get a cookie
+  const getCookie = (name) => {
+    const cname = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(cname) === 0) {
+        return c.substring(cname.length, c.length);
+      }
+    }
+    return "";
+  };
+
+  useEffect(() => {
+    const userName = getCookie("user_name");
+    if (userName) {
+      setUser(userName);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    document.cookie = "user_name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/");
+    window.location.reload();
+  };
+
   return (
-    <header className="bg-primary text-primary-foreground sticky top-0 z-50 shadow">
-      <div className="container mx-auto flex items-center justify-between py-3">
-        <div className="flex items-center gap-3">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
-              <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
-                <circle cx="12" cy="12" r="10" className="fill-white/90" />
-                <path d="M7 12h10M12 7v10" className="stroke-primary" strokeWidth={2} strokeLinecap="round"/>
-              </svg>
-            </span>
-            <div className="leading-tight">
-              <p className="text-sm opacity-90">PM Internship Scheme</p>
-              <p className="text-lg font-bold -mt-0.5">InternSetu</p>
-            </div>
+    <header className="sticky top-0 z-50 shadow bg-white">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between py-3">
+        
+        {/* Left side: MCA and Setu Logos */}
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center">
+            <img src="/mca.png" alt="MCA Logo" className="h-10 w-auto" />
+            <img 
+              src="/setulogodark.png" 
+              alt="Setu Logo" 
+              className="h-10 w-auto transform scale-[200%] ml-4 md:ml-8" 
+            />
           </Link>
         </div>
 
-        <button aria-label="Toggle menu" onClick={() => setOpen(!open)} className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-lg border border-white/20">
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-        </button>
+        {/* Right side: Buttons and Viksit Bharat Logo */}
+        <div className="flex items-center gap-3 mt-3 md:mt-0">
+          <div className="flex items-center gap-3">
+            <Link to="/apply" className="btn btn-accent text-sm">Apply Now</Link>
+            
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-2 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                    <UserIcon size={18} className="text-gray-500" />
+                  </div>
+                  <span className="font-semibold text-sm hidden md:block">{user}</span>
+                </button>
+                
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <Link
+                      to="/student/dashboard"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <UserIcon size={16} /> Student
+                    </Link>
+                    <Link
+                      to="/internships/available"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <Briefcase size={16} /> Internships
+                    </Link>
+                    <Link
+                      to="/eligibility"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <Info size={16} /> Eligibility
+                    </Link>
+                    <Link
+                      to="/help"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <HelpCircle size={16} /> Help
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:text-red-500 transition-colors"
+                    >
+                      <LogOut size={16} /> Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link to="/login" className="btn bg-primary text-white hover:bg-primary/90 text-sm">
+                Login
+              </Link>
+            )}
 
-        <nav className="hidden md:flex items-center gap-6 text-sm">
-          <NavLink to="/" className={({isActive})=>`hover:underline underline-offset-4 ${isActive?"opacity-100":"opacity-80"}`}>Home</NavLink>
-          <NavLink to="/help" className={({isActive})=>`hover:underline underline-offset-4 ${isActive?"opacity-100":"opacity-80"}`}>Help</NavLink>
-          <NavLink to="/student" className={({isActive})=>`hover:underline underline-offset-4 ${isActive?"opacity-100":"opacity-80"}`}>Student</NavLink>
-          <NavLink to="/company" className={({isActive})=>`hover:underline underline-offset-4 ${isActive?"opacity-100":"opacity-80"}`}>Company</NavLink>
-          <NavLink to="/admin" className={({isActive})=>`hover:underline underline-offset-4 ${isActive?"opacity-100":"opacity-80"}`}>Admin</NavLink>
-          <div className="h-6 w-px bg-white/20" />
-          <NavLink to="/apply" className="btn btn-accent text-sm">Apply Now</NavLink>
-          <NavLink to="/login" className="btn bg-white text-primary hover:bg-white/90 text-sm">Login</NavLink>
-        </nav>
-      </div>
-      {open && (
-        <div className="md:hidden border-t border-white/15 bg-primary/95">
-          <div className="container mx-auto py-3 flex flex-col gap-2">
-            <Link to="/" onClick={()=>setOpen(false)} className="py-2">Home</Link>
-            <Link to="/help" onClick={()=>setOpen(false)} className="py-2">Help</Link>
-            <Link to="/student" onClick={()=>setOpen(false)} className="py-2">Student</Link>
-            <Link to="/company" onClick={()=>setOpen(false)} className="py-2">Company</Link>
-            <Link to="/admin" onClick={()=>setOpen(false)} className="py-2">Admin</Link>
-            <div className="flex gap-3 pt-2">
-              <Link to="/apply" onClick={()=>setOpen(false)} className="btn btn-accent flex-1">Apply Now</Link>
-              <Link to="/login" onClick={()=>setOpen(false)} className="btn bg-white text-primary flex-1">Login</Link>
-            </div>
           </div>
+          <img src="/viksit.png" alt="Viksit Bharat Logo" className="h-10 w-auto" />
         </div>
-      )}
+      </div>
     </header>
   );
 }

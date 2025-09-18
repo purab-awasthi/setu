@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
+import { User, Building2, Cpu, BarChart3 } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -14,31 +15,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import ResumeUploadButton from "@/components/ResumeUpload";
-import InteractiveMap from "@/components/InteractiveMap"; // 1. IMPORT THE NEW COMPONENT
+import InteractiveMap from "@/components/InteractiveMap";
+
+// Import your LogoLoop component and partner logos
+import LogoLoop from './LogoLoop';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss } from 'react-icons/si';
 
 export default function Index() {
   const slides = useMemo(
     () => [
       {
-        title: "Empowering Students Nationwide",
-        subtitle:
-          "AI-guided profiles, resume scoring, and fair recommendations for internships.",
-        cta: { label: "Apply Now", href: "/apply" },
-        bg: "bg-[linear-gradient(120deg,#FF7A00_0%,#FFB46B_40%,#0052A5_100%)]",
+        bg: "bg-[url('/modi1.png')] bg-contain bg-center bg-no-repeat",
       },
       {
-        title: "Trusted by Government & Industry",
-        subtitle:
-          "Transparent, auditable allocation aligned with MCA standards.",
-        cta: { label: "Learn More", href: "/help" },
-        bg: "bg-[linear-gradient(120deg,#0052A5_0%,#2C80D8_50%,#FF7A00_100%)]",
+        bg: "bg-[url('/modi2.png')] bg-contain bg-center bg-no-repeat",
       },
       {
-        title: "Explainable AI Matching",
-        subtitle:
-          "See how skills, academics and semantics contribute to your match.",
-        cta: { label: "View Demo", href: "/login" },
-        bg: "bg-[linear-gradient(120deg,#0052A5_0%,#0A66C2_40%,#FF7A00_100%)]",
+        bg: "bg-[url('/modi3.png')] bg-contain bg-center bg-no-repeat",
       },
     ],
     [],
@@ -60,24 +53,32 @@ export default function Index() {
     "All" | "Events" | "Internships" | "Awards"
   >("All");
   const images = [
-    { url: "https://images.unsplash.com/photo-155183 ६०२२-d५d८८e९२१८df?q=८०&w=१२००&auto=format&fit=crop", cat: "Events" },
-    { url: "https://images.unsplash.com/photo-१५२४१६८२७२३२२-५fdf०३f१c६b५?q=८०&w=१२००&auto=format&fit=crop", cat: "Internships" },
-    { url: "https://images.unsplash.com/photo-१५२१७९११३६०६४-७९८६c२९२०२१६?q=८०&w=१२००&auto=format&fit=crop", cat: "Awards" },
-    { url: "https://images.unsplash.com/photo-१५२३५८०८४६०११-d३a५bc२५७०२b?q=८०&w=१२००&auto=format&fit=crop", cat: "Events" },
-    { url: "https://images.unsplash.com/photo-१५१३२५८४९६०९९-४८१६८०२४aec०?q=८०&w=१२००&auto=format&fit=crop", cat: "Internships" },
-    { url: "https://images.unsplash.com/photo-१५५१८३६०२२-४c४d९a३b०b९७?q=८०&w=१२००&auto=format&fit=crop", cat: "Awards" },
+    { url: "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/5A83/production/_120717132_mediaitem120717131.jpg", cat: "Events" },
+    { url: "https://static.pib.gov.in/WriteReadData/userfiles/image/image002PAL5.jpg", cat: "Internships" },
+    { url: "https://images.hindustantimes.com/img/2022/10/03/550x309/cda447b0-42c8-11ed-b45c-96b88fd91a1d_1664767334215.jpg", cat: "Awards" },
+    { url: "https://pbs.twimg.com/media/C5wmyv1UYAEyuHN.jpg", cat: "Events" },
+    { url: "https://www.thestatesman.com/wp-content/uploads/2024/08/IMG_3771-jpeg.webp", cat: "Internships" },
+    { url: "https://indiaeducationdiary.in/wp-content/uploads/2018/10/T2018102156312.jpg", cat: "Awards" },
+    { url: "https://www.deccanchronicle.com/h-upload/2024/01/23/1072130-aa-1405384.webp", cat: "Events" },
+    { url: "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2014/09/05/265249-modi-with-people.jpg", cat: "Internships" },
+    { url: "https://images.news18.com/ibnlive/uploads/2024/11/students-with-pm-modi-2024-11-35f5083055596718379df74a159a4748-16x9.jpg", cat: "Awards" },
   ];
   const filtered = images.filter((i) => galleryFilter === "All" || i.cat === galleryFilter);
 
+  // Partner data array with new logos
   const partners = [
-    { name: "MCA", src: "/placeholder.svg" },
-    { name: "AICTE", src: "/placeholder.svg" },
-    { name: "NIC", src: "/placeholder.svg" },
-    { name: "IIT", src: "/placeholder.svg" },
-    { name: "IIM", src: "/placeholder.svg" },
-    { name: "PSU", src: "/placeholder.svg" },
+    { name: "MCA", src: "/mca.png" },
+    { name: "AICTE", src: "/aicte.png" },
+    { name: "NIC", src: "/nic.png" },
+    { name: "IIT", src: "/iit.png" },
+    { name: "IIM", src: "/iim.png" },
+    { name: "PSU", src: "/psu.png" },
+    { name: "Cisco", src: "/cisco.png" },
+    { name: "Accenture", src: "/accenture.png" },
+    { name: "TCS", src: "/tcs.png" },
+    { name: "Microsoft", src: "/micro.png" },
   ];
-
+  
   const upcoming = [
     { date: "Nov 20, 2025", title: "AI Readiness Workshop", desc: "Hands-on session for resume scoring and profile completion.", cta: "Register" },
     { date: "Dec 05, 2025", title: "Employer Onboarding", desc: "Guidelines for fair postings and explainable shortlisting.", cta: "Register" },
@@ -97,13 +98,11 @@ export default function Index() {
               <CarouselContent>
                 {slides.map((s, i) => (
                   <CarouselItem key={i}>
-                    <div className={`rounded-2xl ${s.bg} text-white p-10 md:p-16 shadow-lg border overflow-hidden`}>
-                      <div className="max-w-3xl">
-                        <h2 className="text-3xl md:text-4xl font-bold">{s.title}</h2>
-                        <p className="mt-3 text-white/90 text-lg">{s.subtitle}</p>
-                        <Link to={s.cta.href} className="btn bg-white text-primary mt-6">{s.cta.label}</Link>
+                    <Link to="/login">
+                      <div className={`rounded-2xl ${s.bg} shadow-lg border overflow-hidden h-[400px] md:h-[500px]`}>
+                        {/* Only the background image will show */}
                       </div>
-                    </div>
+                    </Link>
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -131,63 +130,139 @@ export default function Index() {
         <div className="container mx-auto py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>
             <h1 className="text-4xl md:text-5xl leading-tight">
-              InternSetu – AI-Based Smart Allocation Engine
+              InternSetu : AI-Based Smart Allocation Engine
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-prose">
-              A government-grade portal under the PM Internship Scheme (MCA) to fairly match students with opportunities using AI-driven readiness scores and explainable analytics.
+              InternSetu ensures every student gets a fair shot at internships using explainable AI. Companies can recruit smarter, students apply confidently, and admins maintain complete transparency.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link to="/apply" className="btn btn-accent">Apply Now</Link>
-              <Link to="/login" className="btn bg-primary text-primary-foreground">Login</Link>
               <ResumeUploadButton />
             </div>
-            <div className="mt-6 flex items-center gap-4 text-sm">
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-accent"/>Fair Allocation</span>
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-accent"/>Secure & Compliant</span>
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-accent"/>Explainable AI</span>
+            <div className="mt-6 flex items-center justify-around py-4 px-2 border-y border-gray-300">
+              <span className="inline-flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                Fair Allocation
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                Secure & Compliant
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                Explainable AI
+              </span>
             </div>
           </div>
           <div className="relative">
             <div className="aspect-[4/3] rounded-2xl bg-white shadow-lg border p-6 relative overflow-hidden">
               <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_20%,#FF7A00_0,transparent_40%),radial-gradient(circle_at_80%_60%,#0052A5_0,transparent_40%)]" />
+              
               <div className="relative grid grid-cols-2 gap-4">
-                <InfoCard title="Students" text="Upload resume, complete profile, get smart recommendations." iconColor="text-primary"/>
-                <InfoCard title="Companies" text="Post roles, view applicants, shortlist with AI insights." iconColor="text-accent"/>
-                <InfoCard title="Admins" text="Monitor fairness, approve postings, generate reports." iconColor="text-primary"/>
-                <InfoCard title="Analytics" text="Readiness gauge, skill match charts, explainable results." iconColor="text-accent"/>
+                <InfoCard
+                  title="Students"
+                  text="Smarter matches, personalized recommendations."
+                  icon={User}
+                  iconColor="text-accent"
+                />
+                <InfoCard
+                  title="Companies"
+                  text="Post roles, shortlist faster with AI insights."
+                  icon={Building2}
+                  iconColor="text-accent"
+                />
+                <InfoCard
+                  title="AI Engine"
+                  text="Explain how fairness + explainability works."
+                  icon={Cpu}
+                  iconColor="text-accent"
+                />
+                <InfoCard
+                  title="Analytics"
+                  text="Transparent reports, readiness scores, and skill charts."
+                  icon={BarChart3}
+                  iconColor="text-accent"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Partners */}
+      {/* Partners - Infinitely Scrolling */}
       <section className="container mx-auto py-16">
-        <h2 className="subheading">Partners</h2>
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
-          {partners.map((p) => (
-            <div key={p.name} className="flex items-center justify-center rounded-xl border bg-white p-4 shadow-sm">
-              <img src={p.src} alt={p.name} className="h-10 w-auto opacity-80 grayscale hover:grayscale-0 transition" />
-            </div>
-          ))}
+        <h2 className="subheading text-center">Partners</h2>
+        <div className="mt-8">
+          <LogoLoop
+            logos={partners}
+            speed={100}
+            direction="left"
+            logoHeight={48}
+            gap={40}
+            pauseOnHover
+            scaleOnHover
+            ariaLabel="Partners"
+          />
         </div>
       </section>
 
-      {/* Scheme Overview */}
+      {/* Replaced Scheme Overview with new components */}
       <section className="container mx-auto py-16">
-        <h2 className="subheading">Scheme Overview</h2>
-        <div className="mt-8 grid md:grid-cols-3 gap-6">
-          <div className="card">
-            <h3 className="text-xl">AI Allocation Engine</h3>
-            <p className="mt-2 text-muted-foreground">Matches students to internships using readiness score, skills, academics and semantic fit for transparency and equity.</p>
-          </div>
-          <div className="card">
-            <h3 className="text-xl">Student-Centric</h3>
-            <p className="mt-2 text-muted-foreground">Guided profile completion, resume scoring, skill-gap analysis and learning links to improve eligibility.</p>
-          </div>
-          <div className="card">
-            <h3 className="text-xl">Trust & Compliance</h3>
-            <p className="mt-2 text-muted-foreground">Secure data handling aligned with government standards, audit trails and explainable allocation decisions.</p>
+        <div className="bg-gray-100/60 p-6 md:p-12 rounded-2xl shadow-inner">
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            {/* Left Section: Eligibility */}
+            <div className="flex flex-col items-center text-center">
+              <h2 className="text-2xl font-semibold mb-6">Are you <span className="text-primary">Eligible?</span></h2>
+              <div className="grid sm:grid-cols-2 gap-6 w-full">
+                <EligibilityCard
+                  icon="/age.svg"
+                  title="Age"
+                  text="21-24 Years"
+                />
+                <EligibilityCard
+                  icon="/job.svg"
+                  title="Job Status"
+                  text="Not Employed Full Time"
+                />
+                <EligibilityCard
+                  icon="/education.svg"
+                  title="Education"
+                  text="Not Enrolled Full Time"
+                />
+                <EligibilityCard
+                  icon="/family.svg"
+                  title="Family (Self/ Spouse / Parents)"
+                  text={
+                    <ul className="list-disc ml-4">
+                      <li>No one is earning more than ₹6 Lakhs PA.</li>
+                      <li>No Member has a Govt. Job</li>
+                    </ul>
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Right Section: Core Benefits */}
+            <div className="flex flex-col items-center text-center">
+              <h2 className="text-2xl font-semibold mb-6">Core Benefits for <span className="text-accent">PM Internship Scheme</span></h2>
+              <div className="grid sm:grid-cols-2 gap-6 w-full">
+                <BenefitsCard
+                  icon="/time.svg"
+                  title="12 months real-life experience in India's top companies"
+                />
+                <BenefitsCard
+                  icon="/stipend.svg"
+                  title="Monthly assistance of ₹4500 by Government of India and ₹500 by Industry"
+                />
+                <BenefitsCard
+                  icon="/grant.svg"
+                  title="One-time Grant of ₹6000 for incidentals"
+                />
+                <BenefitsCard
+                  icon="/selectors.svg"
+                  title="Select from various sectors and from top Companies of India"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -259,7 +334,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* 2. ADD THE NEW MAP SECTION */}
+      {/* Interactive Map Section */}
       <section className="bg-gradient-to-b from-primary/5 to-transparent py-16">
         <div className="container mx-auto">
           <h2 className="subheading text-center">Internship Opportunities Across India</h2>
@@ -293,13 +368,14 @@ export default function Index() {
   );
 }
 
-function InfoCard({ title, text, iconColor }: { title: string; text: string; iconColor?: string }) {
+// InfoCard and ActionCard functions
+function InfoCard({ title, text, icon: Icon, iconColor }: { title: string; text: string; icon: any; iconColor?: string }) {
   return (
-    <div className="rounded-xl border bg-card p-5 shadow-sm">
-      <div className={`inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 ${iconColor}`}>
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}><path d="M12 6v12M6 12h12"/></svg>
+    <div className="group rounded-xl border bg-card p-5 shadow-sm transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] hover:shadow-lg cursor-pointer">
+      <div className={`inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary/20 ${iconColor}`}>
+        {Icon && <Icon className="h-5 w-5 transition-all duration-300" />}
       </div>
-      <h3 className="mt-3 text-lg">{title}</h3>
+      <h3 className="mt-3 text-lg font-semibold transition-colors duration-300 group-hover:text-primary">{title}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{text}</p>
     </div>
   );
@@ -307,7 +383,7 @@ function InfoCard({ title, text, iconColor }: { title: string; text: string; ico
 
 function ActionCard({ title, desc, link, btn }: { title: string; desc: string; link: string; btn: string }) {
   return (
-    <div className="card flex flex-col">
+    <div className="card flex flex-col transition-all duration-300 transform hover:translate-y-[-4px] active:translate-y-0 hover:shadow-lg cursor-pointer">
       <h3 className="text-xl">{title}</h3>
       <p className="mt-2 text-muted-foreground flex-1">{desc}</p>
       <Link to={link} className="mt-4 btn btn-accent w-fit">{btn}</Link>
@@ -315,4 +391,27 @@ function ActionCard({ title, desc, link, btn }: { title: string; desc: string; l
   );
 }
 
-// 3. REMOVED the unused StatCard and StateSelector functions
+// New component for the Eligibility section
+function EligibilityCard({ icon, title, text }: { icon: string; title: string; text: string | JSX.Element }) {
+  return (
+    <div className="rounded-xl border bg-white p-6 shadow-sm flex flex-col items-center justify-center text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-lg group hover:bg-accent hover:text-white h-60 w-56">
+      <div className="h-16 w-16 mb-4 flex-shrink-0">
+        <img src={icon} alt={title} className="w-full h-full object-contain transition-all duration-300 group-hover:scale-110" />
+      </div>
+      <h4 className="text-base font-semibold text-primary transition-colors duration-300 group-hover:text-white">{title}</h4>
+      <p className="mt-1 text-sm text-muted-foreground transition-colors duration-300 group-hover:text-white">{text}</p>
+    </div>
+  );
+}
+
+// New component for the Core Benefits section
+function BenefitsCard({ icon, title }: { icon: string; title: string }) {
+  return (
+    <div className="rounded-xl border bg-white p-6 shadow-sm flex flex-col items-center justify-center text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-lg group hover:bg-accent hover:text-white h-60 w-56">
+      <div className="h-16 w-16 mb-4 flex-shrink-0">
+        <img src={icon} alt={title} className="w-full h-full object-contain transition-all duration-300 group-hover:scale-110" />
+      </div>
+      <h4 className="text-base font-semibold transition-colors duration-300 group-hover:text-white">{title}</h4>
+    </div>
+  );
+}

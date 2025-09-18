@@ -11,6 +11,16 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PlaceholderPage from "@/components/PlaceholderPage";
 import { useEffect } from "react";
+import Header2 from "./components/layout/Header2";
+import LoginSignup from "./pages/Login";
+import ProfileForm from './pages/ProfileForm.tsx';
+
+// Import all student pages
+import StudentDashboard from "./pages/student/Dashboard.tsx";
+import StudentProfile from "./pages/student/Profile.tsx";
+import StudentDocuments from "./pages/student/Documents.tsx";
+import StudentSettings from "./pages/student/Settings.tsx";
+import StudentSupport from "./pages/student/Support.tsx";
 
 const queryClient = new QueryClient();
 
@@ -30,12 +40,21 @@ const App = () => {
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
           <Header />
+          <Header2 />
           <div className="flex-1">
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/login" element={<PlaceholderPage title="Login / Signup" description="Student, Company and Admin authentication with email/phone and OTP/Aadhaar options will be implemented here." />} />
+              <Route path="/login" element={<LoginSignup/>} />
+              <Route path="/profile-form" element={<ProfileForm />} />
               <Route path="/apply" element={<PlaceholderPage title="Application Portal" description="Start your application for the PM Internship Scheme. We will build this flow next." />} />
-              <Route path="/student" element={<PlaceholderPage title="Student Dashboard" />} />
+              
+              {/* Student Routes */}
+              <Route path="/student/dashboard" element={<StudentDashboard />} />
+              <Route path="/student/profile" element={<StudentProfile />} />
+              <Route path="/student/docs" element={<StudentDocuments />} />
+              <Route path="/student/settings" element={<StudentSettings />} />
+              <Route path="/student/support" element={<StudentSupport />} />
+
               <Route path="/company" element={<PlaceholderPage title="Company Dashboard" />} />
               <Route path="/admin" element={<PlaceholderPage title="Admin Dashboard" />} />
               <Route path="/help" element={<PlaceholderPage title="Help & Support" />} />
