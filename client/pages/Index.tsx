@@ -325,15 +325,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Quick Actions */}
-      <section className="bg-secondary">
-        <div className="container mx-auto py-12 grid md:grid-cols-3 gap-6">
-          <ActionCard title="Student Login/Signup" link="/login" btn="Proceed" desc="Login with email/phone. OTP/Aadhaar option supported." />
-          <ActionCard title="Company Portal" link="/company" btn="Post Roles" desc="Create roles, manage applicants, submit feedback." />
-          <ActionCard title="Admin Console" link="/admin" btn="Open" desc="Monitor applications, fairness, approve postings." />
-        </div>
-      </section>
-
       {/* Interactive Map Section */}
       <section className="bg-gradient-to-b from-primary/5 to-transparent py-16">
         <div className="container mx-auto">

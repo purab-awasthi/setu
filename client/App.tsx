@@ -13,14 +13,19 @@ import PlaceholderPage from "@/components/PlaceholderPage";
 import { useEffect } from "react";
 import Header2 from "./components/layout/Header2";
 import LoginSignup from "./pages/Login";
-import ProfileForm from './pages/ProfileForm.tsx';
+import ProfileForm from "./pages/ProfileForm.tsx";
 
-// Import all student pages
-import StudentDashboard from "./pages/student/Dashboard.tsx";
-import StudentProfile from "./pages/student/Profile.tsx";
-import StudentDocuments from "./pages/student/Documents.tsx";
-import StudentSettings from "./pages/student/Settings.tsx";
-import StudentSupport from "./pages/student/Support.tsx";
+// Student page imports
+import StudentDashboard from "./pages/StudentDashboard.tsx";
+import StudentProfile from "./pages/Profile.tsx";
+import StudentDocuments from "./pages/StudentDocuments.tsx";
+import StudentSettings from "./pages/StudentSettings.jsx";
+import StudentSupport from "./pages/StudentSupport.tsx";
+
+// Company page imports
+import CompanyRegisterPage from "./pages/CompanyRegisterPage";
+import CompanyDashboard from "./pages/CompanyDashboard";
+import CompanyApplicantsPage from "./pages/CompanyApplicantsPage"; // 1. IMPORT THE NEW PAGE
 
 const queryClient = new QueryClient();
 
@@ -44,20 +49,45 @@ const App = () => {
           <div className="flex-1">
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/login" element={<LoginSignup/>} />
+              <Route path="/login" element={<LoginSignup />} />
               <Route path="/profile-form" element={<ProfileForm />} />
-              <Route path="/apply" element={<PlaceholderPage title="Application Portal" description="Start your application for the PM Internship Scheme. We will build this flow next." />} />
-              
+              <Route
+                path="/apply"
+                element={
+                  <PlaceholderPage
+                    title="Application Portal"
+                    description="Start your application for the PM Internship Scheme. We will build this flow next."
+                  />
+                }
+              />
+
               {/* Student Routes */}
               <Route path="/student/dashboard" element={<StudentDashboard />} />
               <Route path="/student/profile" element={<StudentProfile />} />
               <Route path="/student/docs" element={<StudentDocuments />} />
               <Route path="/student/settings" element={<StudentSettings />} />
               <Route path="/student/support" element={<StudentSupport />} />
+              
+              {/* Company Routes */}
+              <Route path="/company/join" element={<CompanyRegisterPage />} />
+              <Route path="/company/dashboard" element={<CompanyDashboard />} />
+              {/* 2. ADD THE NEW APPLICANTS ROUTE */}
+              <Route path="/company/dashboard/:internshipId/applicants" element={<CompanyApplicantsPage />} />
 
-              <Route path="/company" element={<PlaceholderPage title="Company Dashboard" />} />
-              <Route path="/admin" element={<PlaceholderPage title="Admin Dashboard" />} />
-              <Route path="/help" element={<PlaceholderPage title="Help & Support" />} />
+
+              <Route
+                path="/company"
+                element={<PlaceholderPage title="Company Dashboard" />}
+              />
+              <Route
+                path="/admin"
+                element={<PlaceholderPage title="Admin Dashboard" />}
+              />
+              <Route
+                path="/help"
+                element={<PlaceholderPage title="Help & Support" />}
+              />
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
@@ -70,3 +100,4 @@ const App = () => {
 };
 
 createRoot(document.getElementById("root")!).render(<App />);
+

@@ -5,11 +5,11 @@ export default function Footer() {
     <footer className="bg-primary text-primary-foreground mt-16">
       <div className="container mx-auto py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          {/* --- MODIFICATION: Changed h-12 to h-20 --- */}
+          {/* --- MODIFICATION: Reduced logo margin --- */}
           <img
             src="/setulogo.webp"
             alt="InternSetu Logo"
-            className="h-20 mb-3"
+            className="h-24 mb-2"
           />
           <h3 className="text-xl font-bold text-white">InternSetu</h3>
           <p className="mt-2 text-sm opacity-90 max-w-sm">
@@ -100,3 +100,4 @@ export default function Footer() {
     </footer>
   );
 }
+
