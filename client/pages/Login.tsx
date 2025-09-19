@@ -30,28 +30,54 @@ export default function LoginSignup() {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    // --- Start of Prototype Logic ---
-    // In a real application, this would be an API call to your backend
-    if (isLogin) {
-      console.log("Login Data:", data);
-      setCookie("user_name", "Student", 7); // Set a placeholder name for the session
-      setCookie("new_user", "false", 7); // Simulate an existing user
-      alert("Logged in successfully! Redirecting to home.");
-      navigate("/");
-    } else {
-      console.log("Signup Data:", data);
-      setCookie("user_name", "New User", 7); // Set a placeholder name for the session
-      setCookie("new_user", "true", 7); // Simulate a new user
-      alert("Signed up successfully! Please complete your profile.");
-      navigate("/profile-form");
+    // Use the full backend URL instead of a relative path
+    const API_BASE_URL = "http://localhost:5000";
+    const endpoint = isLogin ? `${API_BASE_URL}/api/auth/login` : `${API_BASE_URL}/api/auth/register`;
+    
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        const { token, user } = result;
+
+        if (token) {
+          // You might set a token in a cookie as well for authentication
+          // setCookie("auth_token", token, 7);
+        }
+
+        if (user) {
+          setCookie("user_name", user.name, 7);
+          setCookie("new_user", user.isNewUser ? "true" : "false", 7);
+        }
+
+        alert(isLogin ? "Logged in successfully!" : "Signed up successfully!");
+
+        if (user.isNewUser) {
+          navigate("/profile-form");
+        } else {
+          navigate("/");
+        }
+      } else {
+        const error = await response.json();
+        alert(error.message || "Something went wrong.");
+      }
+    } catch (error) {
+      console.error("API call failed:", error);
+      alert("Failed to connect to the server. Please ensure the backend is running.");
     }
-    // --- End of Prototype Logic ---
   };
 
   return (
@@ -60,6 +86,10 @@ export default function LoginSignup() {
         {/* Image Section - Hidden on small screens for better mobile experience */}
         <div className="hidden md:block bg-cover bg-center" style={{ backgroundImage: "url('/setulogodark.png')" }}>
           <div className="p-10 flex flex-col justify-end h-full">
+            <h2 className="text-white text-3xl font-bold">Welcome to InternSetu</h2>
+            <p className="text-gray-300 mt-2">
+              Your one-stop portal for internships, powered by AI.
+            </p>
           </div>
         </div>
 
@@ -72,7 +102,7 @@ export default function LoginSignup() {
             <p className="mt-2 text-sm text-gray-600">
               Or{" "}
               <button
-                type="button" // Use type="button" to prevent form submission
+                type="button"
                 onClick={() => setIsLogin(!isLogin)}
                 className="font-medium text-primary hover:text-accent transition-colors"
               >

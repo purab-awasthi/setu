@@ -102,7 +102,7 @@ export default function Header2() {
           </a>
 
           {/* Help */}
-          <NavLink to="/help" className="flex items-center gap-1 hover:underline underline-offset-4">
+          <NavLink to="/student/support" className="flex items-center gap-1 hover:underline underline-offset-4">
             <HelpCircle size={16} /> Help
           </NavLink>
         </nav>
@@ -155,7 +155,7 @@ export default function Header2() {
               <Info size={16} /> Eligibility
             </a>
 
-            <Link to="/help" onClick={() => setOpen(false)} className="flex items-center gap-1">
+            <Link to="/student/support" onClick={() => setOpen(false)} className="flex items-center gap-1">
               <HelpCircle size={16} /> Help
             </Link>
           </div>

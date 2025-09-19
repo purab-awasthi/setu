@@ -26,6 +26,14 @@ import StudentSupport from "./pages/StudentSupport.tsx";
 import CompanyRegisterPage from "./pages/CompanyRegisterPage";
 import CompanyDashboard from "./pages/CompanyDashboard";
 import CompanyApplicantsPage from "./pages/CompanyApplicantsPage"; // 1. IMPORT THE NEW PAGE
+import CompanyPortal from "./pages/CompanyPortal.tsx";
+import CompanyLogin from "./pages/CompanyLogin.tsx";
+import AvailableInternships from "./InternshipList.tsx";
+import MyApplications from "./InternshipApplication.tsx";
+import Results from "./InternshipResult.tsx";
+import Resources from "./InternshipResources.tsx";
+import FAQs from "./InternshipFAQs.tsx";
+import Reports from "./InternshipReports.tsx";
 
 const queryClient = new QueryClient();
 
@@ -45,21 +53,12 @@ const App = () => {
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
           <Header />
-          <Header2 />
           <div className="flex-1">
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<LoginSignup />} />
               <Route path="/profile-form" element={<ProfileForm />} />
-              <Route
-                path="/apply"
-                element={
-                  <PlaceholderPage
-                    title="Application Portal"
-                    description="Start your application for the PM Internship Scheme. We will build this flow next."
-                  />
-                }
-              />
+              <Route path="/apply" element={<PlaceholderPage title="Application Portal" description="Start your application for the PM Internship Scheme. We will build this flow next." />} />
 
               {/* Student Routes */}
               <Route path="/student/dashboard" element={<StudentDashboard />} />
@@ -67,28 +66,27 @@ const App = () => {
               <Route path="/student/docs" element={<StudentDocuments />} />
               <Route path="/student/settings" element={<StudentSettings />} />
               <Route path="/student/support" element={<StudentSupport />} />
-              
+              <Route path="/student/apply" element={<PlaceholderPage title="Application Portal" description="Start your application for the PM Internship Scheme. We will build this flow next." />} />
+
               {/* Company Routes */}
-              <Route path="/company/join" element={<CompanyRegisterPage />} />
+              <Route path="/company" element={<CompanyPortal />} />
+              <Route path="/company/login" element={<CompanyLogin />} />
               <Route path="/company/dashboard" element={<CompanyDashboard />} />
-              {/* 2. ADD THE NEW APPLICANTS ROUTE */}
+              <Route path="/company/join" element={<CompanyPortal />} />
+              <Route path="/company/register" element={<CompanyRegisterPage />} />
               <Route path="/company/dashboard/:internshipId/applicants" element={<CompanyApplicantsPage />} />
 
+              {/* Internship Routes */}
+              <Route path="/internships/available" element={<AvailableInternships />} />
+              <Route path="/internships/applications" element={<MyApplications />} />
+              <Route path="/internships/results" element={<Results />} />
+              <Route path="/internships/resources" element={<Resources />} />
+              <Route path="/internships/faq" element={<FAQs />} />
+              <Route path="/internships/reports" element={<Reports />} />
 
-              <Route
-                path="/company"
-                element={<PlaceholderPage title="Company Dashboard" />}
-              />
-              <Route
-                path="/admin"
-                element={<PlaceholderPage title="Admin Dashboard" />}
-              />
-              <Route
-                path="/help"
-                element={<PlaceholderPage title="Help & Support" />}
-              />
+              <Route path="/admin" element={<PlaceholderPage title="Admin Dashboard" />} />
+              <Route path="/help" element={<StudentSupport />} />
 
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
@@ -100,4 +98,3 @@ const App = () => {
 };
 
 createRoot(document.getElementById("root")!).render(<App />);
-

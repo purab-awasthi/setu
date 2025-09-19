@@ -39,7 +39,7 @@ export default function StudentSupport() {
             <p className="mt-2 text-sm text-gray-500">
               Find answers to common questions and tutorials.
             </p>
-            <Link to="/help" className="mt-4 inline-block text-primary font-semibold hover:underline">
+            <Link to="/student/support" className="mt-4 inline-block text-primary font-semibold hover:underline">
               Visit Help Center
             </Link>
           </div>
