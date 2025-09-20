@@ -2,62 +2,57 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LogOut, User as UserIcon, Briefcase, Info, HelpCircle } from "lucide-react";
 
+// Helper function to get a cookie
+const getCookie = (name) => {
+  const cname = name + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i].trim();
+    if (c.indexOf(cname) === 0) return c.substring(cname.length);
+  }
+  return "";
+};
+
 export default function Header() {
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Helper function to get a cookie
-  const getCookie = (name) => {
-    const cname = name + "=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const ca = decodedCookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) === ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(cname) === 0) {
-        return c.substring(cname.length, c.length);
-      }
-    }
-    return "";
-  };
-
   useEffect(() => {
     const userName = getCookie("user_name");
-    if (userName) {
-      setUser(userName);
-    }
+    if (userName) setUser(userName);
   }, []);
 
   const handleLogout = () => {
+    // Delete cookies
     document.cookie = "user_name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    navigate("/");
+    document.cookie = "new_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    setUser(null);
+    navigate("/login");
     window.location.reload();
   };
 
   return (
     <header className="sticky top-0 z-50 shadow bg-white">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between py-3">
-        
-        {/* Left side: MCA and Setu Logos */}
+        {/* Left Logos */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
             <img src="/mca.png" alt="MCA Logo" className="h-10 w-auto" />
-            <img 
-              src="/setulogodark.png" 
-              alt="Setu Logo" 
-              className="h-10 w-auto transform scale-[200%] ml-4 md:ml-8" 
+            <img
+              src="/setulogodark.png"
+              alt="Setu Logo"
+              className="h-10 w-auto transform scale-[200%] ml-4 md:ml-8"
             />
           </Link>
         </div>
 
-        {/* Right side: Buttons and Viksit Bharat Logo */}
+        {/* Right Buttons & Viksit Logo */}
         <div className="flex items-center gap-3 mt-3 md:mt-0">
           <div className="flex items-center gap-3">
             <Link to="/apply" className="btn btn-accent text-sm">Apply Now</Link>
-            
+
             {user ? (
               <div className="relative">
                 <button
@@ -69,7 +64,7 @@ export default function Header() {
                   </div>
                   <span className="font-semibold text-sm hidden md:block">{user}</span>
                 </button>
-                
+
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                     <Link
@@ -110,11 +105,13 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <Link to="/login" className="btn bg-primary text-white hover:bg-primary/90 text-sm">
+              <Link
+                to="/login"
+                className="btn bg-primary text-white hover:bg-primary/90 text-sm"
+              >
                 Login
               </Link>
             )}
-
           </div>
           <img src="/viksit.png" alt="Viksit Bharat Logo" className="h-10 w-auto" />
         </div>

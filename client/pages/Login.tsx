@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 // Helper function to set a cookie
 const setCookie = (name: string, value: string, days: number) => {
   const date = new Date();
-  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
   const expires = "expires=" + date.toUTCString();
   document.cookie = name + "=" + value + ";" + expires + ";path=/";
 };
@@ -13,10 +13,10 @@ const setCookie = (name: string, value: string, days: number) => {
 const getCookie = (name: string) => {
   const cname = name + "=";
   const decodedCookie = decodeURIComponent(document.cookie);
-  const ca = decodedCookie.split(';');
-  for(let i = 0; i < ca.length; i++) {
+  const ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) === ' ') {
+    while (c.charAt(0) === " ") {
       c = c.substring(1);
     }
     if (c.indexOf(cname) === 0) {
@@ -36,10 +36,11 @@ export default function LoginSignup() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    // Use the full backend URL instead of a relative path
-    const API_BASE_URL = "http://localhost:5000";
-    const endpoint = isLogin ? `${API_BASE_URL}/api/auth/login` : `${API_BASE_URL}/api/auth/register`;
-    
+    const API_BASE_URL = "http://localhost:5000/api";
+    const endpoint = isLogin
+      ? `${API_BASE_URL}/auth/login`
+      : `${API_BASE_URL}/auth/register`;
+
     try {
       const response = await fetch(endpoint, {
         method: "POST",
@@ -51,24 +52,25 @@ export default function LoginSignup() {
 
       if (response.ok) {
         const result = await response.json();
-        const { token, user } = result;
+
+        const { token, name, isNewUser } = result;
 
         if (token) {
-          // You might set a token in a cookie as well for authentication
-          // setCookie("auth_token", token, 7);
-        }
+  setCookie("auth_token", token, 7); 
+}
 
-        if (user) {
-          setCookie("user_name", user.name, 7);
-          setCookie("new_user", user.isNewUser ? "true" : "false", 7);
+        if (name) {
+          setCookie("user_name", name, 7);
+          setCookie("new_user", isNewUser ? "true" : "false", 7);
         }
 
         alert(isLogin ? "Logged in successfully!" : "Signed up successfully!");
 
-        if (user.isNewUser) {
-          navigate("/profile-form");
+        // Navigate based on isNewUser
+        if (isNewUser) {
+          navigate("/profile-form", { replace: true });
         } else {
-          navigate("/");
+          navigate("/", { replace: true });
         }
       } else {
         const error = await response.json();
@@ -76,21 +78,21 @@ export default function LoginSignup() {
       }
     } catch (error) {
       console.error("API call failed:", error);
-      alert("Failed to connect to the server. Please ensure the backend is running.");
+      alert(
+        "Failed to connect to the server. Please ensure the backend is running."
+      );
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100/50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full bg-white rounded-xl shadow-2xl overflow-hidden md:grid md:grid-cols-2">
-        {/* Image Section - Hidden on small screens for better mobile experience */}
-        <div className="hidden md:block bg-cover bg-center" style={{ backgroundImage: "url('/setulogodark.png')" }}>
-          <div className="p-10 flex flex-col justify-end h-full">
-            <h2 className="text-white text-3xl font-bold">Welcome to InternSetu</h2>
-            <p className="text-gray-300 mt-2">
-              Your one-stop portal for internships, powered by AI.
-            </p>
-          </div>
+        {/* Image Section */}
+        <div
+          className="hidden md:block bg-cover bg-center"
+          style={{ backgroundImage: "url('/setulogodark.png')" }}
+        >
+          <div className="p-10 flex flex-col justify-end h-full"></div>
         </div>
 
         {/* Form Section */}
@@ -106,7 +108,9 @@ export default function LoginSignup() {
                 onClick={() => setIsLogin(!isLogin)}
                 className="font-medium text-primary hover:text-accent transition-colors"
               >
-                {isLogin ? "create a new account" : "login to an existing account"}
+                {isLogin
+                  ? "create a new account"
+                  : "login to an existing account"}
               </button>
             </p>
           </div>
@@ -149,14 +153,20 @@ export default function LoginSignup() {
                   type="checkbox"
                   className="h-4 w-4 text-primary focus:ring-accent border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   Remember me
                 </label>
               </div>
 
               {isLogin && (
                 <div className="text-sm">
-                  <Link to="#" className="font-medium text-primary hover:text-accent">
+                  <Link
+                    to="#"
+                    className="font-medium text-primary hover:text-accent"
+                  >
                     Forgot your password?
                   </Link>
                 </div>
